@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aisha Anwar — CV</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy: #1a2744;
+    --gold: #b8860b;
+    --gold-light: #d4a84b;
+    --text: #2c2c2c;
+    --text-light: #555;
+    --bg: #f5f3ef;
+    --white: #ffffff;
+    --border: #d4cfc7;
+    --page-w: 210mm;
+    --page-h: 297mm;
+    --page-px: 18mm;
+    --page-py: 16mm;
+  }
+
+  html { font-size: 16px; }
+
+  body {
+    font-family: 'EB Garamond', 'Georgia', serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.45;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── TOOLBAR ── */
+  .toolbar {
+    position: sticky; top: 0; z-index: 100;
+    background: var(--navy);
+    color: var(--white);
+    display: flex; align-items: center; justify-content: center; gap: 12px;
+    padding: 12px 24px;
+    box-shadow: 0 2px 12px rgba(0,0,0,.25);
+    flex-wrap: wrap;
+  }
+  .toolbar h1 {
+    font-weight: 500; font-size: 1.1rem; letter-spacing: .03em;
+    margin-right: auto;
+  }
+  .toolbar button {
+    font-family: inherit; font-size: .85rem; font-weight: 600;
+    padding: 8px 20px; border: none; border-radius: 4px; cursor: pointer;
+    transition: background .2s, transform .1s;
+  }
+  .toolbar button:active { transform: scale(.97); }
+  .btn-gold { background: var(--gold); color: var(--white); }
+  .btn-gold:hover { background: var(--gold-light); }
+
+  /* ── PAGE SHELL ── */
+  .page-wrap {
+    display: flex; justify-content: center; padding: 36px 20px;
+  }
+  .page-wrap + .page-wrap { padding-top: 0; }
+  .page {
+    width: var(--page-w);
+    min-height: var(--page-h);
+    background: var(--white);
+    padding: var(--page-py) var(--page-px);
+    box-shadow: 0 4px 24px rgba(0,0,0,.1);
+    position: relative;
+    page-break-after: always;
+  }
+
+  /* ── HEADER ── */
+  .cv-header {
+    text-align: center;
+    padding-bottom: 14px;
+    margin-bottom: 16px;
+    border-bottom: 2px solid var(--navy);
+  }
+  .cv-header h1 {
+    font-size: 1.7rem; font-weight: 700; color: var(--navy);
+    letter-spacing: .06em; text-transform: uppercase; margin-bottom: 2px;
+  }
+  .cv-header .quals {
+    font-size: .95rem; color: var(--gold); font-weight: 500; margin-bottom: 6px;
+  }
+  .cv-header .contact {
+    font-size: .82rem; color: var(--text-light);
+  }
+  .cv-header .contact a { color: var(--text-light); text-decoration: none; }
+
+  /* ── CV SECTIONS ── */
+  .section { margin-bottom: 14px; }
+  .section-title {
+    font-size: 1rem; font-weight: 700; text-transform: uppercase;
+    color: var(--navy); letter-spacing: .07em;
+    border-bottom: 1.2px solid var(--navy);
+    padding-bottom: 3px; margin-bottom: 10px;
+  }
+  .profile-text { font-size: .88rem; line-height: 1.6; color: var(--text); margin-bottom: 6px; }
+
+  .competencies {
+    font-size: .86rem; color: var(--text); line-height: 1.55;
+    columns: 2; column-gap: 24px;
+  }
+  .competencies li { margin-bottom: 3px; list-style: disc inside; }
+
+  .company { margin-bottom: 12px; }
+  .company-name { font-weight: 700; font-size: .95rem; color: var(--navy); }
+  .company-desc { font-size: .8rem; color: var(--text-light); font-style: italic; margin: 1px 0 6px; line-height: 1.45; }
+  .role-line {
+    display: flex; justify-content: space-between; align-items: baseline;
+    margin-bottom: 2px;
+  }
+  .role-title { font-weight: 600; font-size: .88rem; }
+  .role-dates { font-size: .82rem; color: var(--text-light); white-space: nowrap; }
+  .achievements { padding-left: 16px; margin-top: 4px; }
+  .achievements li {
+    font-size: .82rem; line-height: 1.5; margin-bottom: 4px;
+    list-style: disc;
+  }
+
+  /* ── PAGE 2 ── */
+  .board-role { margin-bottom: 10px; }
+  .board-role .role-line { margin-bottom: 0; }
+  .board-role .org { font-weight: 600; font-size: .88rem; }
+  .board-role .board-title { font-size: .84rem; color: var(--text-light); font-style: italic; }
+  .board-role .board-desc { font-size: .82rem; margin-top: 2px; }
+
+  .edu-item { margin-bottom: 8px; }
+  .edu-item strong { font-weight: 600; font-size: .88rem; }
+  .edu-item p { font-size: .82rem; line-height: 1.5; }
+
+  .other-text, .personal-text {
+    font-size: .85rem; line-height: 1.55;
+  }
+
+  .page-label {
+    position: absolute; bottom: 10mm; right: var(--page-px);
+    font-size: .72rem; color: #bbb;
+  }
+
+  /* ── PRINT / PDF ── */
+  @media print {
+    body { background: #fff; }
+    .toolbar { display: none !important; }
+    .page-wrap { padding: 0; }
+    .page { box-shadow: none; margin: 0; }
+  }
+
+  @media (max-width: 800px) {
+    .page { width: 100%; min-height: auto; padding: 24px 20px; }
+    .competencies { columns: 1; }
+  }
+</style>
+</head>
+<body>
+
+<!-- TOOLBAR -->
+<div class="toolbar">
+  <h1>Aisha Anwar <span style="font-weight:400;opacity:.6">ACA</span></h1>
+  <button class="btn-gold" onclick="exportPDF()">Download PDF</button>
+</div>
+
+<!-- ═══════════ CV PAGE 1 ═══════════ -->
+<div class="page-wrap">
+  <div class="page" id="cvPage1">
+    <div class="cv-header">
+      <h1>Aisha Anwar</h1>
+      <div class="quals">ACA &nbsp;·&nbsp; BSc (Hons) Management</div>
+      <div class="contact">
+        +44 (0)7702 491 532 &nbsp;&middot;&nbsp;
+        <a href="mailto:aisha@aishaanwar.co.uk">aisha@aishaanwar.co.uk</a>
+      </div>
+    </div>
+
+    <!-- Profile -->
+    <div class="section">
+      <div class="section-title">Profile</div>
+      <p class="profile-text">An experienced finance professional with a track record of leading complex financial operations at FTSE-listed level. Skilled in refinancing, system implementation, and building high-performing teams. Leadership style grounded in positivity, collaboration, and consistency — focused on translating strategy into operational excellence and measurable results.</p>
+    </div>
+
+    <!-- Key Competencies -->
+    <div class="section">
+      <div class="section-title">Key Competencies</div>
+      <ul class="competencies">
+        <li>Refinancing, financial reporting, budgeting &amp; forecasting</li>
+        <li>Systems implementation (NetSuite, Moorepay) &amp; change management</li>
+        <li>Leadership, line management &amp; mentoring</li>
+        <li>Public speaking — Adyen, Wex, ABTA (March 2025)</li>
+      </ul>
+    </div>
+
+    <!-- Career -->
+    <div class="section">
+      <div class="section-title">Career</div>
+
+      <div class="company">
+        <div class="company-name">On the Beach plc</div>
+        <div class="company-desc">FTSE-listed online travel business generating over £1.2bn in total transaction value.</div>
+        <div class="role-line"><span class="role-title">Finance Director</span><span class="role-dates">10/2024 – Present</span></div>
+        <div class="role-line"><span class="role-title">Head of Financial Control</span><span class="role-dates">07/2022 – 09/2024</span></div>
+        <div class="role-line"><span class="role-title">Financial Controller</span><span class="role-dates">09/2020 – 06/2022</span></div>
+        <ul class="achievements">
+          <li>Led end-to-end £120m refinancing process including financial forecasts and investor presentation materials; presented to 9 banks and secured improved terms with offers from all institutions; expanded banking syndicate to include HSBC alongside existing Lloyds and NatWest relationships.</li>
+          <li>Delivered transformational system upgrade from Sage 200 to NetSuite; implemented automated processes enabling booking-level transaction detail; significantly enhanced reporting capabilities and operational efficiency.</li>
+          <li>Successfully transitioned from legacy Sage 50 to cloud-based Moorepay over 3 months, managing concurrent implementation alongside NetSuite to support business cloud strategy.</li>
+          <li>Ran two share buyback programmes, unwinding part of the pandemic dilution following two emergency share placings.</li>
+          <li>Maintained stable core finance headcount (38) despite 39% volume growth over three years; absorbed increased complexity through automation and process improvements.</li>
+          <li>Built new procurement division from ground up; recruited Procurement Manager, established governance framework; over £1m saved in software costs since inception in March 2024.</li>
+          <li>Implemented Alteryx data analytics software, reducing finance and audit team time at year end and eradicating audit overrun fees.</li>
+          <li>Led OKR implementation across the finance function.</li>
+          <li>Completed 30 hours of one-on-one executive coaching across 2024–25 covering change management, stakeholder management, building teams, and inspiring performance.</li>
+          <li>Provided the data that secured On the Beach's legal victory against Ryanair for Covid refunds at summary judgement stage.</li>
+          <li>Led the team that recovered over £100m of airline refunds due to the Group.</li>
+          <li>Responsible for card rebate negotiations and strategy generating approximately £6m of income annually.</li>
+        </ul>
+      </div>
+
+      <div class="company">
+        <div class="company-name">Innovative Technology Limited</div>
+        <div class="company-desc">Note and coin validation equipment designer and manufacturer with offices on four continents, approximately 400 employees, and a global finance and admin team of 21.</div>
+        <div class="role-line"><span class="role-title">Financial Controller</span><span class="role-dates">07/2017 – 09/2020</span></div>
+        <ul class="achievements">
+          <li>Supported the in-house technology team with barcoding implementation in the Chinese manufacturing facility, increasing stock visibility and reducing stock loss by 200%.</li>
+          <li>Increased automation of the finance function using a low-code integration platform and Microsoft queries to pull ERP data into Excel for analysis.</li>
+          <li>Reduced month-end close from 10 to 3 working days.</li>
+          <li>Sourced R&amp;D tax consultants and delivered increased claims of 150% on previous submissions.</li>
+          <li>Implemented company and departmental balanced scorecards and KPIs, working directly with the board of directors.</li>
+          <li>Renegotiated consignment stock agreements with 3 key customers representing 40% of revenue.</li>
+        </ul>
+      </div>
+
+      <div class="company">
+        <div class="company-name">CLB Coopers</div>
+        <div class="role-line"><span class="role-title">Audit Assistant Manager</span><span class="role-dates">12/2016 – 07/2017</span></div>
+        <div class="role-line"><span class="role-title">Audit Graduate Scheme</span><span class="role-dates">08/2013 – 12/2016</span></div>
+        <p class="profile-text" style="margin-top:4px;">Trained for and qualified ACA (September 2016) whilst auditing clients across investments, manufacturing, recruitment, and legal sectors, from owner-managed businesses through to listed companies.</p>
+      </div>
+    </div>
+
+    <div class="page-label">CV — Page 1</div>
+  </div>
+</div>
+
+<!-- ═══════════ CV PAGE 2 ═══════════ -->
+<div class="page-wrap">
+  <div class="page" id="cvPage2">
+    <div class="cv-header" style="margin-bottom: 20px;">
+      <h1>Aisha Anwar</h1>
+      <div class="quals">ACA &nbsp;·&nbsp; BSc (Hons) Management</div>
+    </div>
+
+    <!-- Board & Voluntary Roles -->
+    <div class="section">
+      <div class="section-title">Board &amp; Voluntary Roles</div>
+      <div class="board-role">
+        <div class="role-line"><span class="org">ICAEW Business Committee</span><span class="role-dates">03/2020 – 10/2024</span></div>
+        <div class="board-title">Board Member</div>
+        <p class="board-desc">Non-executive board advising the ICAEW on matters relating to members in industry.</p>
+      </div>
+      <div class="board-role">
+        <div class="role-line"><span class="org">ICAEW Guider Programme</span><span class="role-dates">03/2023 – 12/2024</span></div>
+        <div class="board-title">Student Mentor</div>
+        <p class="board-desc">Supported ICAEW students at various stages of their ACA qualification.</p>
+      </div>
+    </div>
+
+    <!-- Education -->
+    <div class="section">
+      <div class="section-title">Education &amp; Qualifications</div>
+      <div class="edu-item">
+        <strong>ACA — ICAEW</strong>
+        <p>Walton Prize and First Place, International Order of Merit in Strategic Business Management (Advanced Stage), November 2015. Second Prize and Deloitte Prize, ICAEW Advanced International Order based on overall Advanced Stage results.</p>
+      </div>
+      <div class="edu-item">
+        <strong>BSc Management (International Business Economics), 2:1 — University of Manchester</strong>
+      </div>
+    </div>
+
+    <!-- Other -->
+    <div class="section">
+      <div class="section-title">Other</div>
+      <p class="other-text">Full Clean Driver's Licence. ICAEW Sustainability Certificate (in progress).</p>
+    </div>
+
+    <!-- Personal -->
+    <div class="section">
+      <div class="section-title">Personal</div>
+      <p class="personal-text">Outside work I enjoy spending time with friends and family. For leisure I am most at home outdoors — an avid runner, hiker, and mediocre tennis player.</p>
+    </div>
+
+    <div class="page-label">CV — Page 2</div>
+  </div>
+</div>
+
+<script>
+async function exportPDF() {
+  const btn = document.querySelector('.btn-gold');
+  btn.textContent = 'Generating…';
+  btn.disabled = true;
+
+  const container = document.createElement('div');
+  [document.getElementById('cvPage1'), document.getElementById('cvPage2')].forEach(p => {
+    const clone = p.cloneNode(true);
+    clone.style.width = '210mm';
+    clone.style.minHeight = '297mm';
+    clone.style.padding = '16mm 18mm';
+    clone.style.boxShadow = 'none';
+    clone.style.pageBreakAfter = 'always';
+    container.appendChild(clone);
+  });
+
+  const opt = {
+    margin: 0,
+    filename: 'Aisha_Anwar_CV.pdf',
+    image: { type: 'jpeg', quality: 0.98 },
+    html2canvas: { scale: 2, useCORS: true },
+    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+    pagebreak: { mode: ['css', 'legacy'], after: '.page' }
+  };
+
+  try {
+    await html2pdf().set(opt).from(container).save();
+  } catch (e) {
+    console.error('PDF export failed:', e);
+    alert('PDF export failed. Please try using your browser\'s Print → Save as PDF instead.');
+  }
+
+  btn.textContent = 'Download PDF';
+  btn.disabled = false;
+}
+</script>
+</body>
+</html>
